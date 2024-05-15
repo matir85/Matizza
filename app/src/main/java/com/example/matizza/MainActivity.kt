@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.matizza.ui.screens.StartScreen
 import com.example.matizza.ui.theme.MatizzaTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,7 +17,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             MatizzaTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-
+                    StartScreen(onStartClick = {
+                        // nawiguj do ekranu logowania
+                    })
                 }
             }
         }
