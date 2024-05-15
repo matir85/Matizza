@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,10 +45,12 @@ fun StartScreen(modifier: Modifier = Modifier) {
         alpha = 0.5f
     )
 
-    Column(modifier = Modifier
-        .fillMaxSize(),
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom) {
+        verticalArrangement = Arrangement.Bottom
+    ) {
         Text(
             modifier = Modifier.align(CenterHorizontally),
             textAlign = TextAlign.Center,
@@ -56,9 +59,15 @@ fun StartScreen(modifier: Modifier = Modifier) {
             color = Color.White,
             text = "Matizza"
         )
-        Text(text = "Co kolwiek")
+        Text(
+            modifier = Modifier.padding(),
+            textAlign = TextAlign.Center,
+            fontSize = 25.sp,
+            color = Color.White,
+            text = "Pizza domowa"
+        )
         OutlinedButton(onClick = { /*TODO*/ }) {
-            
+
         }
     }
 }
