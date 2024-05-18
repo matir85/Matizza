@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,7 +17,10 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.materialIcon
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -65,7 +69,8 @@ fun LoginScreen(
         Image(
             modifier = Modifier.sizeIn(minWidth = 100.dp, minHeight = 100.dp),
             bitmap = imageBitmap,
-            contentDescription = null)
+            contentDescription = null
+        )
         Text(
             modifier = Modifier.padding(vertical = 16.dp),
             fontSize = 30.sp,
@@ -76,16 +81,17 @@ fun LoginScreen(
         EmailTextFiled(
             text = email,
             textLabel = "Email",
-            onValueChange = {str -> email = str}
+            onValueChange = { str -> email = str }
         )
 
         PasswordTextFiled(
             password = password,
             textLabel = "Hasło",
-            onValueChange = {str-> password = str}
+            onValueChange = { str -> password = str }
         )
 
-        Box(modifier = Modifier
+        Box(
+            modifier = Modifier
                 .fillMaxWidth(),
             contentAlignment = Alignment.BottomEnd
         ) {
@@ -98,6 +104,20 @@ fun LoginScreen(
             )
         }
 
+        OutlinedButton(
+            modifier = Modifier
+                .height(48.dp)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            colors = ButtonDefaults.buttonColors(Green800),
+            onClick = { onClickLogin(email, password) }
+        ) {
+            Text(
+                text = "Zaloguj się",
+                color = Color.White
+            )
+        }
+
     }
 }
 
@@ -107,10 +127,10 @@ fun EmailTextFiled(
     text: String,
     textLabel: String,
     onValueChange: (String) -> Unit
-    ) {
+) {
     Column {
         Text(
-            modifier = Modifier.padding( start = 16.dp),
+            modifier = Modifier.padding(start = 16.dp),
             color = Color.Gray,
             fontWeight = FontWeight.SemiBold,
             text = "Podaj adres email"
@@ -122,7 +142,7 @@ fun EmailTextFiled(
             value = text,
             onValueChange = onValueChange,
             shape = RoundedCornerShape(10),
-            label = { Text(text = textLabel)},
+            label = { Text(text = textLabel) },
             leadingIcon = {
                 val emaiulIcon = Icons.Filled.Email
                 Image(imageVector = emaiulIcon, contentDescription = null)
@@ -138,11 +158,11 @@ fun PasswordTextFiled(
     onValueChange: (String) -> Unit
 ) {
     var passwordVisable by rememberSaveable {
-      mutableStateOf(false)
+        mutableStateOf(false)
     }
     Column {
         Text(
-            modifier = Modifier.padding( start = 16.dp),
+            modifier = Modifier.padding(start = 16.dp),
             color = Color.Gray,
             fontWeight = FontWeight.SemiBold,
             text = "Podaj hasło"
@@ -154,12 +174,12 @@ fun PasswordTextFiled(
             value = password,
             onValueChange = onValueChange,
             shape = RoundedCornerShape(10),
-            label = { Text(text = textLabel)},
+            label = { Text(text = textLabel) },
             visualTransformation =
-                if(passwordVisable) VisualTransformation.None
-                else PasswordVisualTransformation(),
+            if (passwordVisable) VisualTransformation.None
+            else PasswordVisualTransformation(),
             trailingIcon = {
-                val image = if(passwordVisable) Icons.Filled.Visibility
+                val image = if (passwordVisable) Icons.Filled.Visibility
                 else Icons.Filled.VisibilityOff
                 IconButton(onClick = { passwordVisable = !passwordVisable }) {
                     Image(imageVector = image, contentDescription = null)
