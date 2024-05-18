@@ -4,6 +4,7 @@ import android.graphics.drawable.Icon
 import android.opengl.Visibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
+import com.example.matizza.ui.theme.Green800
 
 @Composable
 fun LoginScreen(
@@ -82,6 +84,20 @@ fun LoginScreen(
             textLabel = "Hasło",
             onValueChange = {str-> password = str}
         )
+
+        Box(modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(end = 16.dp, bottom = 16.dp),
+                fontWeight = FontWeight.SemiBold,
+                color = Green800,
+                text = "Zapomniałeś hasła?"
+            )
+        }
+
     }
 }
 
