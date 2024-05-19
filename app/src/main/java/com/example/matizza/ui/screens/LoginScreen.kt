@@ -6,10 +6,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -67,7 +70,7 @@ fun LoginScreen(
         val imageBitmap = ImageBitmap.imageResource(id = R.drawable.login_logo)
         // wyświetlenie loga
         Image(
-            modifier = Modifier.sizeIn(minWidth = 100.dp, minHeight = 100.dp),
+            modifier = Modifier.sizeIn(minWidth = 60.dp, minHeight = 60.dp),
             bitmap = imageBitmap,
             contentDescription = null
         )
@@ -116,6 +119,44 @@ fun LoginScreen(
                 text = "Zaloguj się",
                 color = Color.White
             )
+        }
+
+        OutlinedButton(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 16.dp)
+                .height(48.dp)
+                .fillMaxWidth(),
+            onClick = { onClickGoogle }
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                androidx.compose.material3.Icon(
+                    modifier = Modifier
+                        .size(25.dp, 25.dp)
+                        .padding(end = 5.dp),
+                    bitmap = ImageBitmap.imageResource(id = R.drawable.ic_google),
+                    contentDescription = null)
+                Text(
+                    text = "Zaloguj się za pomocą Google",
+                    color = Color.Black
+                )
+            }
+        }
+
+        Box(modifier = Modifier
+            .padding(top = 30.dp),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            Row {
+                Text(text = "Nie masz konta ?")
+                Text(
+                    modifier = Modifier.padding(start = 8.dp),
+                    color = Green800,
+                    fontWeight = FontWeight.SemiBold,
+                    text = "Rejestracja"
+                )
+            }
         }
 
     }
