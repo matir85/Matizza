@@ -67,7 +67,8 @@ dependencies {
     // Coroutines gradlle
     implementation(libs.kotlinx.coroutines.android)
 
-
+    // Dodanie ikonek
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
