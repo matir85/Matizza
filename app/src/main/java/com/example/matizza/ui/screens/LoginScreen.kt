@@ -50,18 +50,18 @@ import com.example.matizza.ui.theme.Green800
 @Composable
 fun LoginScreen(
     // podajemy zachowania, które chcemy obsłużyć
-    onClickLogin: (String, String) -> Unit,
-    onClickGoogle: () -> Unit
+    onClickLogin: (String, String) -> Unit, // Funkcja wywoływana po kliknięciu przycisku logowania z parametrami email i hasło
+    onClickGoogle: () -> Unit // Funkcja wywoływana po kliknięciu przycisku logowania za pomocą Google
 ) {
     // zmienne do przetrzymywania wpisanego tekstu
     var email by remember {
-        mutableStateOf("")
+        mutableStateOf("")  // Zmienna przechowująca adres email
     }
     var password by remember {
-        mutableStateOf("")
+        mutableStateOf("")  // Zmienna przechowująca hasło
     }
 
-    Column(
+    Column(   // Layout kolumny wypełniającej cały ekran
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -74,25 +74,28 @@ fun LoginScreen(
             bitmap = imageBitmap,
             contentDescription = null
         )
+        // Tekst nagłówkowy ekranu logowania
         Text(
             modifier = Modifier.padding(vertical = 16.dp),
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
             text = "Zaloguj się do\n swojego konta"
         )
-        // Wywołanie pola do wpisania adresu emaiul
+        // Wywołanie pola do wpisania adresu email
         EmailTextFiled(
             text = email,
             textLabel = "Email",
-            onValueChange = { str -> email = str }
+            onValueChange = { str -> email = str } // Aktualizacja zmiennej email przy zmianie tekstu
         )
 
+        // Wywołanie pola do wpisania hasła
         PasswordTextFiled(
             password = password,
             textLabel = "Hasło",
-            onValueChange = { str -> password = str }
+            onValueChange = { str -> password = str } // Aktualizacja zmiennej password przy zmianie tekstu
         )
 
+        // Tekst z odnośnikiem do resetowania hasła
         Box(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -107,36 +110,40 @@ fun LoginScreen(
             )
         }
 
+        // Przycisk logowania
         OutlinedButton(
             modifier = Modifier
                 .height(48.dp)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             colors = ButtonDefaults.buttonColors(Green800),
-            onClick = { onClickLogin(email, password) }
+            onClick = { onClickLogin(email, password) } // Wywołanie funkcji logowania po kliknięciu
         ) {
             Text(
-                text = "Zaloguj się",
+                text = "Zaloguj się",  // Tekst na przycisku logowania
                 color = Color.White
             )
         }
 
+        // Przycisk logowania za pomocą Google
         OutlinedButton(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 16.dp)
                 .height(48.dp)
                 .fillMaxWidth(),
-            onClick = { onClickGoogle }
+            onClick = { onClickGoogle } // Wywołanie funkcji logowania za pomocą Google po kliknięciu
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Ikona Google
                 androidx.compose.material3.Icon(
                     modifier = Modifier
                         .size(25.dp, 25.dp)
                         .padding(end = 5.dp),
                     bitmap = ImageBitmap.imageResource(id = R.drawable.ic_google),
                     contentDescription = null)
+                // Tekst na przycisku logowania za pomocą Google
                 Text(
                     text = "Zaloguj się za pomocą Google",
                     color = Color.Black
@@ -144,6 +151,7 @@ fun LoginScreen(
             }
         }
 
+        // Tekst z odnośnikiem do rejestracji
         Box(modifier = Modifier
             .padding(top = 30.dp),
             contentAlignment = Alignment.BottomCenter
@@ -170,28 +178,30 @@ fun EmailTextFiled(
     onValueChange: (String) -> Unit
 ) {
     Column {
+        // Tekst pomocniczy nad polem email
         Text(
             modifier = Modifier.padding(start = 16.dp),
             color = Color.Gray,
             fontWeight = FontWeight.SemiBold,
             text = "Podaj adres email"
         )
+        // Pole tekstowe do wpisania adresu email
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            value = text,
-            onValueChange = onValueChange,
-            shape = RoundedCornerShape(10),
-            label = { Text(text = textLabel) },
+            value = text, // Aktualny tekst w polu email
+            onValueChange = onValueChange, // Funkcja wywoływana przy zmianie tekstu
+            shape = RoundedCornerShape(10), // Zaokrąglone rogi pola tekstowego
+            label = { Text(text = textLabel) }, // Etykieta pola tekstowego
             leadingIcon = {
                 val emaiulIcon = Icons.Filled.Email
-                Image(imageVector = emaiulIcon, contentDescription = null)
+                Image(imageVector = emaiulIcon, contentDescription = null) // Ikona email przed polem tekstowym
             }
         )
     }
 }
-
+// Pole do wpisania hasła
 @Composable
 fun PasswordTextFiled(
     password: String,
@@ -199,30 +209,32 @@ fun PasswordTextFiled(
     onValueChange: (String) -> Unit
 ) {
     var passwordVisable by rememberSaveable {
-        mutableStateOf(false)
+        mutableStateOf(false) // Zmienna określająca widoczność hasła
     }
     Column {
+        // Tekst pomocniczy nad polem hasła
         Text(
             modifier = Modifier.padding(start = 16.dp),
             color = Color.Gray,
             fontWeight = FontWeight.SemiBold,
             text = "Podaj hasło"
         )
+        // Pole tekstowe do wpisania hasła
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            value = password,
-            onValueChange = onValueChange,
-            shape = RoundedCornerShape(10),
-            label = { Text(text = textLabel) },
+            value = password, // Aktualne hasło w polu tekstowym
+            onValueChange = onValueChange, // Funkcja wywoływana przy zmianie hasła
+            shape = RoundedCornerShape(10), // Zaokrąglone rogi pola tekstowego
+            label = { Text(text = textLabel) }, // Etykieta pola tekstowego
             visualTransformation =
-            if (passwordVisable) VisualTransformation.None
-            else PasswordVisualTransformation(),
+            if (passwordVisable) VisualTransformation.None // Widoczność hasła
+            else PasswordVisualTransformation(), // Ukrywanie hasła
             trailingIcon = {
-                val image = if (passwordVisable) Icons.Filled.Visibility
+                val image = if (passwordVisable) Icons.Filled.Visibility // Ikona widoczności hasła
                 else Icons.Filled.VisibilityOff
-                IconButton(onClick = { passwordVisable = !passwordVisable }) {
+                IconButton(onClick = { passwordVisable = !passwordVisable }) { // Przycisk zmiany widoczności hasła
                     Image(imageVector = image, contentDescription = null)
                 }
             }
