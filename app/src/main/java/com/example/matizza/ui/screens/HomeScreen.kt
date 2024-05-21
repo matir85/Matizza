@@ -1,6 +1,7 @@
 package com.example.matizza.ui.screens
 
 import android.graphics.drawable.Icon
+import android.widget.SlidingDrawer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,10 +16,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -41,9 +44,12 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     onItemClick: () -> Unit,
     onProfileClick: () -> Unit,
-    onSearch: () -> Unit
+    onSearch: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
+    var text by remember {
+        mutableStateOf("")
+    }
 
     Column(
         modifier = Modifier
@@ -53,7 +59,13 @@ fun HomeScreen(
     ) {
         HomeHeder()
         WelcomeText()
-        SearchFild()
+        SearchFild(
+            text = text,
+            onSearch = {
+                text = it
+                onSearch(it)
+            }
+        )
         PromotionAds()
         OfferList()
     }
@@ -71,20 +83,36 @@ fun PromotionAds() {
 }
 
 @Composable
-fun SearchFild() {
-
+fun SearchFild(
+    text: String,
+    onSearch: (String) -> Unit
+) {
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 5.dp, vertical = 10.dp),
+        value = text,
+        onValueChange = { onSearch(it) },
+        label = { Text(text = "Wyszukaj") },
+        leadingIcon = {
+            androidx.compose.material3.Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_search),
+                contentDescription = null
+            )
+        }
+    )
 }
 
 @Composable
 fun WelcomeText(name: String = "") {
-Column(modifier = Modifier.padding(top = 20.dp)) {
-Text(
-    modifier = Modifier.padding(top = 20.dp),
-    text = "Cześć $name\nna co masz ochoę",
-    fontSize = 22.sp,
-    fontWeight = FontWeight.Bold
-)
-}
+    Column(modifier = Modifier.padding(top = 20.dp)) {
+        Text(
+            modifier = Modifier.padding(top = 20.dp),
+            text = "Cześć $name\nna co masz ochoę",
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
 }
 
 @Composable
