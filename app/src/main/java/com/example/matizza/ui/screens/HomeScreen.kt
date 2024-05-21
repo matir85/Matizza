@@ -1,7 +1,9 @@
 package com.example.matizza.ui.screens
 
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,8 +17,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
+import com.example.matizza.ui.theme.Neutral900
 
 @Composable
 fun HomeScreen(
@@ -74,7 +81,7 @@ fun HomeScreen(
 
 @Composable
 fun OfferList() {
-TabHeaders()
+    TabHeaders()
 }
 
 @Composable
@@ -83,25 +90,73 @@ fun TabHeaders(
     headers: List<String> = emptyList(),
     onTabClick: (String) -> Unit = {}
 ) {
-LazyRow {
-    items(items = headers) {header ->
-        Text(
-            modifier = Modifier
-                .clickable { onTabClick(header) }
-                .padding(horizontal = 16.dp, vertical = 10.dp),
-            text = header,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = if (selectedTab === header) Color.Black
-            else Color.Gray
-        )
+    LazyRow {
+        items(items = headers) { header ->
+            Text(
+                modifier = Modifier
+                    .clickable { onTabClick(header) }
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                text = header,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = if (selectedTab === header) Color.Black
+                else Color.Gray
+            )
+        }
     }
-}
 }
 
 @Composable
 fun PromotionAds() {
+    Surface(
+        color = Neutral900,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 5.dp, end = 5.dp),
+        shadowElevation = 2.dp,
+        shape = RoundedCornerShape(10)
+    ) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(start = 10.dp, top = 10.dp)) {
+                Text(
+                    text = "-20% zniszki",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+                Text(
+                    text = "Pizza wegetariańska",
+                    color = Color.White
+                )
+                IconButton(
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .border(border = BorderStroke(1.dp, color = Color.LightGray),
+                            shape = RoundedCornerShape(30)
+                        ),
+                    onClick = { /*TODO*/ }
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_right),
+                        contentDescription = null,
+                        tint = Color.White,
 
+                    )
+                }
+            }
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Image(
+                    modifier = Modifier.size(150.dp),
+                    bitmap = ImageBitmap.imageResource(id = R.drawable.pizza_three),
+                    contentDescription = null,
+
+                )
+            }
+        }
+    }
 }
 
 @Composable
