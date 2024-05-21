@@ -29,8 +29,10 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.matizza.R
 
 @Composable
@@ -60,22 +62,29 @@ fun HomeScreen(
 
 @Composable
 fun OfferList() {
-    TODO("Not yet implemented")
+
 }
 
 @Composable
 fun PromotionAds() {
-    TODO("Not yet implemented")
+
 }
 
 @Composable
 fun SearchFild() {
-    TODO("Not yet implemented")
+
 }
 
 @Composable
-fun WelcomeText() {
-    TODO("Not yet implemented")
+fun WelcomeText(name: String = "") {
+Column(modifier = Modifier.padding(top = 20.dp)) {
+Text(
+    modifier = Modifier.padding(top = 20.dp),
+    text = "Cześć $name\nna co masz ochoę",
+    fontSize = 22.sp,
+    fontWeight = FontWeight.Bold
+)
+}
 }
 
 @Composable
@@ -110,10 +119,9 @@ fun HomeHeder(
                     imageVector = arrowIcon,
                     contentDescription = null
                 )
-                if (isExpandet) {
-                    Text(text = address)
-                }
-
+            }
+            if (isExpandet) {
+                Text(text = address)
             }
         }
 
@@ -141,9 +149,9 @@ fun HomeHeaderPreview() {
     HomeHeder(address = "Poniec, ul. Rynek 3")
 }
 
-//@Preview(showBackground = true, showSystemUi = true)
-//@Composable
-//fun HomeScreenPreview() {
-//    HomeScreen(onItemClick = { /*TODO*/ }, onProfileClick = { /*TODO*/ }) {
-//    }
-//}
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun HomeScreenPreview() {
+    HomeScreen(onItemClick = { /*TODO*/ }, onProfileClick = { /*TODO*/ }) {
+    }
+}
