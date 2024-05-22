@@ -80,8 +80,19 @@ fun HomeScreen(
 }
 
 @Composable
-fun OfferList() {
-    TabHeaders()
+fun OfferList(
+    headers: List<String>,
+    selectedCategoryTab: String,
+    products: List<ItemDetail>,
+    onTabClick: (String) -> Unit,
+    onItemClick: (ItemDetail) -> Unit
+) {
+    Column {
+        TabHeaders()
+        LazyRow {
+            items(products)
+        }
+    }
 }
 
 @Composable
@@ -131,7 +142,8 @@ fun PromotionAds() {
                 IconButton(
                     modifier = Modifier
                         .padding(5.dp)
-                        .border(border = BorderStroke(1.dp, color = Color.LightGray),
+                        .border(
+                            border = BorderStroke(1.dp, color = Color.LightGray),
                             shape = RoundedCornerShape(30)
                         ),
                     onClick = { /*TODO*/ }
@@ -141,7 +153,7 @@ fun PromotionAds() {
                         contentDescription = null,
                         tint = Color.White,
 
-                    )
+                        )
                 }
             }
             Box(
@@ -153,7 +165,7 @@ fun PromotionAds() {
                     bitmap = ImageBitmap.imageResource(id = R.drawable.pizza_three),
                     contentDescription = null,
 
-                )
+                    )
             }
         }
     }
