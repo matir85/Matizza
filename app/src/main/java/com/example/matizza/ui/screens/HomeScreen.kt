@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
@@ -43,6 +45,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
+import com.example.matizza.data.ItemsDetail
+import com.example.matizza.ui.theme.Green800
 import com.example.matizza.ui.theme.Neutral900
 
 @Composable
@@ -81,18 +85,82 @@ fun HomeScreen(
 
 @Composable
 fun OfferList(
-    headers: List<String>,
-    selectedCategoryTab: String,
-    products: List<ItemDetail>,
-    onTabClick: (String) -> Unit,
-    onItemClick: (ItemDetail) -> Unit
+    headers: List<String> = listOf(),
+    selectedCategoryTab: String = "",
+    products: List<ItemsDetail> = listOf(),
+    onTabClick: (String) -> Unit = {},
+    onItemClick: (ItemsDetail) -> Unit = {}
 ) {
     Column {
-        TabHeaders()
+        TabHeaders(
+            selectedTab = selectedCategoryTab,
+            headers = headers,
+            onTabClick = onTabClick
+        )
         LazyRow {
-            items(products)
+            items(products) {item ->
+                val bitmap = ImageBitmap.imageResource(id = item.image)
+                OffertItem(
+                    bitmap = bitmap,
+                    item = item,
+                    onItemClick = onItemClick
+                )
+            }
         }
     }
+}
+
+@Composable
+fun OffertItem(
+    bitmap: ImageBitmap,
+    item: ItemsDetail,
+    onItemClick: (ItemsDetail) -> Unit = {}
+) {
+Surface(
+    modifier = Modifier
+        .padding(horizontal = 5.dp)
+        .clickable { onItemClick(item) },
+    shadowElevation = 10.dp,
+    shape = RoundedCornerShape(10)
+) {
+    Column {
+        Row {
+            Image(
+                modifier = Modifier
+                    .size(width = 150.dp, height = 150.dp)
+                    .offset(x = 25.dp),
+                bitmap = bitmap,
+                contentDescription = null
+            )
+            Surface(
+                shadowElevation = 16.dp,
+                shape = RoundedCornerShape(10)
+            ) {
+                Box(
+                    contentAlignment = Alignment.TopCenter
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .size(50.dp, 50.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_add),
+                        contentDescription = null,
+                        alignment = Alignment.BottomEnd,
+                        colorFilter = ColorFilter.tint(Green800)
+                    )
+                }
+            }
+        }
+        Text(
+            modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+            fontWeight = FontWeight.Bold,
+            text = item.name
+        )
+        Text(
+            modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 16.dp),
+            text = item.price.toString()
+        )
+    }
+}
 }
 
 @Composable
