@@ -2,7 +2,7 @@ package com.example.matizza.data
 
 sealed class UiState {
     data class Home(
-        val product: List<ItemsDetail>,
+        val products: List<ItemDetail>,
         val userData: UserData
     )
     data class Profile(
@@ -17,15 +17,17 @@ sealed class UiState {
         val orderList: List<Order>
     )
     data class ItemDetailScreen(
-        val item: ItemsDetail,
+        val item: ItemDetail,
         val alreadyAdded: Boolean = false
     )
     data class Payment(
-        val userDAta: UserData,
+        val userData: UserData,
         val orderList: List<Order>
     )
     data class Map(
         val name: String,
-        val surname: String
+        val surname: String,
+        val sourceAddress: String,
+        val targetAddress: String
     )
 }

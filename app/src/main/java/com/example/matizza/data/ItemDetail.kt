@@ -3,11 +3,11 @@ package com.example.matizza.data
 import androidx.annotation.DrawableRes
 import com.example.matizza.R
 
-data class ItemsDetail(
+data class ItemDetail(
     val id: Long,
     val orderState: String,
     val name: String,
-    val data: String,
+    val date: String,
     val ingredients: String,
     val calories: String = "Calories 200kcal/100g",
     val price: Float,
