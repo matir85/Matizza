@@ -45,13 +45,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
-import com.example.matizza.data.ItemsDetail
+import com.example.matizza.data.ItemDetail
+import com.example.matizza.data.UiState
 import com.example.matizza.ui.theme.Green800
 import com.example.matizza.ui.theme.Neutral900
 
 @Composable
 fun HomeScreen(
-//    data:
+    data: UiState.Home,
     modifier: Modifier = Modifier,
     onItemClick: () -> Unit,
     onProfileClick: () -> Unit,
@@ -85,11 +86,11 @@ fun HomeScreen(
 
 @Composable
 fun OfferList(
-    headers: List<String> = listOf(),
+    headers: List<String> = emptyList(),
     selectedCategoryTab: String = "",
-    products: List<ItemsDetail> = listOf(),
+    products: List<ItemDetail> = emptyList(),
     onTabClick: (String) -> Unit = {},
-    onItemClick: (ItemsDetail) -> Unit = {}
+    onItemClick: (ItemDetail) -> Unit = {}
 ) {
     Column {
         TabHeaders(
@@ -113,8 +114,8 @@ fun OfferList(
 @Composable
 fun OffertItem(
     bitmap: ImageBitmap,
-    item: ItemsDetail,
-    onItemClick: (ItemsDetail) -> Unit = {}
+    item: ItemDetail,
+    onItemClick: (ItemDetail) -> Unit = {}
 ) {
 Surface(
     modifier = Modifier
