@@ -85,9 +85,9 @@ fun HomeScreen(
 
 @Composable
 fun OfferList(
-    headers: List<String> = listOf(),
+    headers: List<String> = emptyList(),
     selectedCategoryTab: String = "",
-    products: List<ItemsDetail> = listOf(),
+    products: List<ItemsDetail> = emptyList(),
     onTabClick: (String) -> Unit = {},
     onItemClick: (ItemsDetail) -> Unit = {}
 ) {
