@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.sp
 import com.example.matizza.R
 import com.example.matizza.data.ItemDetail
 import com.example.matizza.data.UiState
+import com.example.matizza.data.samples.sampleHeader
+import com.example.matizza.data.samples.sampleHomeData
 import com.example.matizza.ui.theme.Green800
 import com.example.matizza.ui.theme.Neutral900
 
@@ -54,13 +56,16 @@ import com.example.matizza.ui.theme.Neutral900
 fun HomeScreen(
     data: UiState.Home,
     modifier: Modifier = Modifier,
-    onItemClick: () -> Unit,
+    onItemClick: (ItemDetail) -> Unit,
     onProfileClick: () -> Unit,
     onSearch: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
     var text by remember {
         mutableStateOf("")
+    }
+    var selectedCategoryTab by rememberSaveable {
+        mutableStateOf("Pizza")
     }
 
     Column(
@@ -69,8 +74,13 @@ fun HomeScreen(
             .verticalScroll(scrollState)
             .padding(start = 2.dp, end = 2.dp, bottom = 10.dp)
     ) {
-        HomeHeder()
-        WelcomeText()
+        HomeHeder(
+            address = data.userData.address,
+            onProfileClick = onProfileClick
+        )
+        WelcomeText(
+            name = data.userData.name
+        )
         SearchFild(
             text = text,
             onSearch = {
@@ -79,7 +89,16 @@ fun HomeScreen(
             }
         )
         PromotionAds()
-        OfferList()
+        OfferList(
+            headers = sampleHeader,
+            selectedCategoryTab = selectedCategoryTab,
+            products = data.products,
+            onTabClick = {
+                category ->
+                         selectedCategoryTab = category
+            },
+            onItemClick = onItemClick
+        )
     }
 
 }
@@ -99,7 +118,7 @@ fun OfferList(
             onTabClick = onTabClick
         )
         LazyRow {
-            items(products) {item ->
+            items(products) { item ->
                 val bitmap = ImageBitmap.imageResource(id = item.image)
                 OffertItem(
                     bitmap = bitmap,
@@ -117,51 +136,51 @@ fun OffertItem(
     item: ItemDetail,
     onItemClick: (ItemDetail) -> Unit = {}
 ) {
-Surface(
-    modifier = Modifier
-        .padding(horizontal = 5.dp)
-        .clickable { onItemClick(item) },
-    shadowElevation = 10.dp,
-    shape = RoundedCornerShape(10)
-) {
-    Column {
-        Row {
-            Image(
-                modifier = Modifier
-                    .size(width = 150.dp, height = 150.dp)
-                    .offset(x = 25.dp),
-                bitmap = bitmap,
-                contentDescription = null
-            )
-            Surface(
-                shadowElevation = 16.dp,
-                shape = RoundedCornerShape(10)
-            ) {
-                Box(
-                    contentAlignment = Alignment.TopCenter
+    Surface(
+        modifier = Modifier
+            .padding(horizontal = 5.dp)
+            .clickable { onItemClick(item) },
+        shadowElevation = 10.dp,
+        shape = RoundedCornerShape(10)
+    ) {
+        Column {
+            Row {
+                Image(
+                    modifier = Modifier
+                        .size(width = 150.dp, height = 150.dp)
+                        .offset(x = 25.dp),
+                    bitmap = bitmap,
+                    contentDescription = null
+                )
+                Surface(
+                    shadowElevation = 16.dp,
+                    shape = RoundedCornerShape(10)
                 ) {
-                    Image(
-                        modifier = Modifier
-                            .size(50.dp, 50.dp),
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_add),
-                        contentDescription = null,
-                        alignment = Alignment.BottomEnd,
-                        colorFilter = ColorFilter.tint(Green800)
-                    )
+                    Box(
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        Image(
+                            modifier = Modifier
+                                .size(50.dp, 50.dp),
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_add),
+                            contentDescription = null,
+                            alignment = Alignment.BottomEnd,
+                            colorFilter = ColorFilter.tint(Green800)
+                        )
+                    }
                 }
             }
+            Text(
+                modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+                fontWeight = FontWeight.Bold,
+                text = item.name
+            )
+            Text(
+                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 16.dp),
+                text = item.price.toString()
+            )
         }
-        Text(
-            modifier = Modifier.padding(start = 10.dp, top = 10.dp),
-            fontWeight = FontWeight.Bold,
-            text = item.name
-        )
-        Text(
-            modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 16.dp),
-            text = item.price.toString()
-        )
     }
-}
 }
 
 @Composable
@@ -338,6 +357,9 @@ fun HomeHeaderPreview() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(onItemClick = { /*TODO*/ }, onProfileClick = { /*TODO*/ }) {
+    HomeScreen(
+        data = sampleHomeData,
+        onItemClick = { /*TODO*/ },
+        onProfileClick = { /*TODO*/ }) {
     }
 }
