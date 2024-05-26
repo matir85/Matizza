@@ -54,33 +54,36 @@ import com.example.matizza.ui.theme.Neutral900
 
 @Composable
 fun HomeScreen(
-    data: UiState.Home,
-    modifier: Modifier = Modifier,
-    onItemClick: (ItemDetail) -> Unit,
-    onProfileClick: () -> Unit,
-    onSearch: (String) -> Unit
+    data: UiState.Home, // Obiekt danych do wyświetlenia na ekranie głównym
+    modifier: Modifier = Modifier, // Opcjonalny modyfikator
+    onItemClick: (ItemDetail) -> Unit, // Funkcja wywoływana po kliknięciu elementu oferty
+    onProfileClick: () -> Unit, // Funkcja wywoływana po kliknięciu profilu użytkownika
+    onSearch: (String) -> Unit // Funkcja wywoływana po wyszukiwaniu
 ) {
-    val scrollState = rememberScrollState()
+    val scrollState = rememberScrollState() // Stan scrolla
     var text by remember {
-        mutableStateOf("")
+        mutableStateOf("") // Stan tekstu wyszukiwania
     }
     var selectedCategoryTab by rememberSaveable {
-        mutableStateOf("Pizza")
+        mutableStateOf("Pizza") // Stan wybranej zakładki kategorii
     }
-
+    // Główna kolumna, zawierająca elementy ekranu
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
             .padding(start = 2.dp, end = 2.dp, bottom = 10.dp)
     ) {
+        // Nagłówek strony głównej
         HomeHeder(
             address = data.userData.address,
             onProfileClick = onProfileClick
         )
+        // Tekst powitalny
         WelcomeText(
             name = data.userData.name
         )
+        // Pole wyszukiwania
         SearchFild(
             text = text,
             onSearch = {
@@ -88,7 +91,9 @@ fun HomeScreen(
                 onSearch(it)
             }
         )
+        // Sekcja promocji
         PromotionAds()
+        // Lista ofert
         OfferList(
             headers = sampleHeader,
             selectedCategoryTab = selectedCategoryTab,
@@ -105,21 +110,24 @@ fun HomeScreen(
 
 @Composable
 fun OfferList(
-    headers: List<String> = emptyList(),
-    selectedCategoryTab: String = "",
-    products: List<ItemDetail> = emptyList(),
-    onTabClick: (String) -> Unit = {},
-    onItemClick: (ItemDetail) -> Unit = {}
+    headers: List<String> = emptyList(), // Lista nagłówków kategorii
+    selectedCategoryTab: String = "", // Wybrana kategoria
+    products: List<ItemDetail> = emptyList(), // Lista produktów do wyświetlenia
+    onTabClick: (String) -> Unit = {}, // Funkcja wywoływana po kliknięciu zakładki
+    onItemClick: (ItemDetail) -> Unit = {} // Funkcja wywoływana po kliknięciu elementu oferty
 ) {
     Column {
+        // Nagłówki zakładek
         TabHeaders(
             selectedTab = selectedCategoryTab,
             headers = headers,
             onTabClick = onTabClick
         )
+        // Lista produktów w poziomej linii
         LazyRow {
             items(products) { item ->
                 val bitmap = ImageBitmap.imageResource(id = item.image)
+                // Element oferty
                 OffertItem(
                     bitmap = bitmap,
                     item = item,
@@ -132,19 +140,20 @@ fun OfferList(
 
 @Composable
 fun OffertItem(
-    bitmap: ImageBitmap,
-    item: ItemDetail,
-    onItemClick: (ItemDetail) -> Unit = {}
+    bitmap: ImageBitmap, // Obraz produktu
+    item: ItemDetail, // Dane produktu
+    onItemClick: (ItemDetail) -> Unit = {} // Funkcja wywoływana po kliknięciu elementu oferty
 ) {
     Surface(
         modifier = Modifier
             .padding(horizontal = 5.dp)
-            .clickable { onItemClick(item) },
+            .clickable { onItemClick(item) }, // Ustawienie kliknięcia
         shadowElevation = 10.dp,
         shape = RoundedCornerShape(10)
     ) {
         Column {
             Row {
+                // Obraz produktu
                 Image(
                     modifier = Modifier
                         .size(width = 150.dp, height = 150.dp)
@@ -159,6 +168,7 @@ fun OffertItem(
                     Box(
                         contentAlignment = Alignment.TopCenter
                     ) {
+                        // Ikona dodawania
                         Image(
                             modifier = Modifier
                                 .size(50.dp, 50.dp),
@@ -170,11 +180,13 @@ fun OffertItem(
                     }
                 }
             }
+            // Nazwa produktu
             Text(
                 modifier = Modifier.padding(start = 10.dp, top = 10.dp),
                 fontWeight = FontWeight.Bold,
                 text = item.name
             )
+            // Cena produktu
             Text(
                 modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 16.dp),
                 text = item.price.toString()
@@ -185,21 +197,22 @@ fun OffertItem(
 
 @Composable
 fun TabHeaders(
-    selectedTab: String = "Pizza",
-    headers: List<String> = emptyList(),
-    onTabClick: (String) -> Unit = {}
+    selectedTab: String = "Pizza", // Wybrana zakładka
+    headers: List<String> = emptyList(), // Lista zakładek
+    onTabClick: (String) -> Unit = {} // Funkcja wywoływana po kliknięciu zakładki
 ) {
     LazyRow {
         items(items = headers) { header ->
+            // Tekst zakładki
             Text(
                 modifier = Modifier
-                    .clickable { onTabClick(header) }
+                    .clickable { onTabClick(header) } // Kliknięcie zmienia zakładkę
                     .padding(horizontal = 16.dp, vertical = 10.dp),
                 text = header,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = if (selectedTab === header) Color.Black
-                else Color.Gray
+                else Color.Gray // Kolor zależny od wybranej zakładki
             )
         }
     }
@@ -207,6 +220,7 @@ fun TabHeaders(
 
 @Composable
 fun PromotionAds() {
+    // Sekcja reklamy promocyjnej
     Surface(
         color = Neutral900,
         modifier = Modifier
@@ -217,6 +231,7 @@ fun PromotionAds() {
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.padding(start = 10.dp, top = 10.dp)) {
+                // Tekst promocji
                 Text(
                     text = "-20% zniszki",
                     fontSize = 22.sp,
@@ -236,6 +251,7 @@ fun PromotionAds() {
                         ),
                     onClick = { /*TODO*/ }
                 ) {
+                    // Ikona przejścia do promocji
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_right),
                         contentDescription = null,
@@ -248,6 +264,7 @@ fun PromotionAds() {
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.CenterEnd
             ) {
+                // Obraz promowanej pizzy
                 Image(
                     modifier = Modifier.size(150.dp),
                     bitmap = ImageBitmap.imageResource(id = R.drawable.pizza_three),
@@ -261,16 +278,17 @@ fun PromotionAds() {
 
 @Composable
 fun SearchFild(
-    text: String,
-    onSearch: (String) -> Unit
+    text: String, // Tekst wyszukiwania
+    onSearch: (String) -> Unit // Funkcja wywoływana przy zmianie tekstu wyszukiwania
 ) {
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp, vertical = 10.dp),
         value = text,
-        onValueChange = { onSearch(it) },
+        onValueChange = { onSearch(it) }, // Aktualizacja tekstu wyszukiwania
         label = { Text(text = "Wyszukaj") },
+        // Ikona wyszukiwania
         leadingIcon = {
             androidx.compose.material3.Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_search),
@@ -282,10 +300,11 @@ fun SearchFild(
 
 @Composable
 fun WelcomeText(name: String = "") {
+    // Tekst powitalny
     Column(modifier = Modifier.padding(top = 20.dp)) {
         Text(
             modifier = Modifier.padding(start = 5.dp),
-            text = "Cześć $name\nna co masz ochoę",
+            text = "Cześć $name\nna co masz ochoę", // Personalizowany tekst powitalny
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold
         )
@@ -294,11 +313,11 @@ fun WelcomeText(name: String = "") {
 
 @Composable
 fun HomeHeder(
-    address: String = "",
-    onProfileClick: () -> Unit = {}
+    address: String = "", // Adres użytkownika
+    onProfileClick: () -> Unit = {} // Funkcja wywoływana po kliknięciu profilu użytkownika
 ) {
     var isExpandet by rememberSaveable {
-        mutableStateOf(false)
+        mutableStateOf(false) // Stan rozwinięcia adresu
     }
 
     val arrowIcon = when (isExpandet) {
@@ -313,6 +332,7 @@ fun HomeHeder(
         horizontalArrangement = Arrangement.Center
     ) {
         Column {
+            // Wiersz z adresem i ikoną rozwijania
             Row(
                 modifier = Modifier.clickable { isExpandet = !isExpandet }
             ) {
@@ -326,6 +346,7 @@ fun HomeHeder(
                 )
             }
             if (isExpandet) {
+                // Tekst adresu, gdy jest rozwinięty
                 Text(text = address)
             }
         }
@@ -335,6 +356,7 @@ fun HomeHeder(
                 .fillMaxWidth(),
             contentAlignment = Alignment.CenterEnd
         ) {
+            // Obraz profilu użytkownika
             Image(
                 modifier = Modifier
                     .clickable { onProfileClick() }
