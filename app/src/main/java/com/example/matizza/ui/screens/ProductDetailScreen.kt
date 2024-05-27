@@ -1,5 +1,6 @@
 package com.example.matizza.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,11 +13,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,8 +49,16 @@ fun ProductDetail() {
 }
 
 @Composable
-fun ProductImage() {
-
+fun ProductImage(image: Int) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .size(350.dp, 350.dp)
+    ) {
+        Image(bitmap = ImageBitmap.imageResource(id = image),
+            contentDescription = null,
+            alignment = Alignment.Center)
+    }
 }
 
 @Composable
@@ -79,4 +91,3 @@ fun ProductHeader() {
 fun ProductHeaderView() {
     ProductHeader()
 }
-
