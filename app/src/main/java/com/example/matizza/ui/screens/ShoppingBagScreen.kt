@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,8 +16,10 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,9 +44,11 @@ import com.example.matizza.ui.theme.Green800
 
 @Composable
 fun ShoppingBagScreen(
+    roundedDouble: Double = 0.0,
     shopingList: List<Order>,
     onIncrementOrderNumber: (ItemDetail) -> Unit = {},
-    onDecrementOrderNumber: (ItemDetail) -> Unit = {}
+    onDecrementOrderNumber: (ItemDetail) -> Unit = {},
+    onPaymentClick: () -> Unit = {}
 ) {
     Column {
         Box(modifier = Modifier.padding(start = 16.dp, top = 25.dp)) {
@@ -53,19 +58,52 @@ fun ShoppingBagScreen(
                 fontSize = 25.sp
             )
         }
-        ShoppingBagList(shopingList, onIncrementOrderNumber, onDecrementOrderNumber)
-        SumUp()
+        ShoppingBagList(
+            modifier = Modifier.weight(1f),
+            shopingList,
+            onIncrementOrderNumber,
+            onDecrementOrderNumber
+        )
+        SumUp(roundedDouble = roundedDouble, onPaymentClick = onPaymentClick)
     }
 }
 
 @Composable
-fun () {
-Column(
-    modifier = Modifier.fillMaxWidth(),
-    horizontalAlignment = Alignment.CenterHorizontally
-) {
-SumUpRowText()
-}
+fun SumUp(roundedDouble: Double, onPaymentClick: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        SumUpRowText(
+            textSize = 18.sp,
+            fontWeight = FontWeight.Light,
+            leftText = "Razem",
+            rightText = roundedDouble.toString()
+        )
+        SumUpRowText(
+            textSize = 18.sp,
+            fontWeight = FontWeight.Light,
+            leftText = "Koszt dostawy",
+            rightText = "10"
+        )
+        SumUpRowText(
+            textSize = 25.sp,
+            fontWeight = FontWeight.Bold,
+            leftText = "Koszt całkowity",
+            rightText = (roundedDouble + 10).toString()
+        )
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            onClick = onPaymentClick,
+            colors = ButtonDefaults.buttonColors(
+                Green800
+            )
+        ) {
+            Text(text = "Płatność", color = Color.White)
+        }
+    }
 }
 
 @Composable
@@ -75,16 +113,33 @@ fun SumUpRowText(
     leftText: String,
     rightText: String
 ) {
-    TODO("Not yet implemented")
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            modifier = Modifier.padding(start = 16.dp),
+            text = leftText,
+            fontWeight = fontWeight,
+            fontSize = textSize
+        )
+        Text(
+            modifier = Modifier.padding(end = 16.dp),
+            text = rightText,
+            fontWeight = fontWeight,
+            fontSize = textSize
+        )
+    }
 }
 
 @Composable
 fun ShoppingBagList(
+    modifier: Modifier = Modifier,
     shopingList: List<Order>,
     onIncrementOrderNumber: (ItemDetail) -> Unit,
     onDecrementOrderNumber: (ItemDetail) -> Unit
 ) {
-    LazyColumn {
+    LazyColumn(modifier = modifier, contentPadding = PaddingValues(bottom = 100.dp)) {
         items(items = shopingList) { order ->
             ShoppingBagItem(
                 order = order,
@@ -185,5 +240,5 @@ fun ShoppingBagScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ShoppingBagItemPreview() {
-    ShoppingBagItem(order =  sampleShoppingBag.itemList[0])
+    ShoppingBagItem(order = sampleShoppingBag.itemList[0])
 }
