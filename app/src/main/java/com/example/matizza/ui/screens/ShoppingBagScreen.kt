@@ -30,6 +30,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
@@ -58,8 +59,23 @@ fun ShoppingBagScreen(
 }
 
 @Composable
-fun SumUp() {
+fun () {
+Column(
+    modifier = Modifier.fillMaxWidth(),
+    horizontalAlignment = Alignment.CenterHorizontally
+) {
+SumUpRowText()
+}
+}
 
+@Composable
+fun SumUpRowText(
+    textSize: TextUnit,
+    fontWeight: FontWeight,
+    leftText: String,
+    rightText: String
+) {
+    TODO("Not yet implemented")
 }
 
 @Composable
