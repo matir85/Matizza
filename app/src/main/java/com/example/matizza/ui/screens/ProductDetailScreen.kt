@@ -1,6 +1,5 @@
 package com.example.matizza.ui.screens
 
-import android.service.autofill.UserData
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +18,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -59,27 +57,33 @@ fun ProductDetailScreen(
     onItemAdd: (ItemDetail) -> Unit = {},
     onGoToShoppingBag: () -> Unit = {}
 ) {
+    // Zapamiętaj stan przewijania ekranu
     val scrollState = rememberScrollState()
 
+    // Kolumna do rozmieszczenia elementów w pionie
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
+            .fillMaxSize() // Wypełnij cały rozmiar rodzica
+            .verticalScroll(scrollState) // Włącz pionowe przewijanie
     ) {
+        // Wyświetl nagłówek produktu
         ProductHeader()
         ProductImage(data.item.image)
+        // Wyświetl szczegóły produktu
         ProductDetail(item = data.item, alreadyAdded = data.alreadyAdded)
     }
 }
 
 @Composable
 fun ProductHashTag(name: String) {
+    // Komponent Surface z wypełnieniem, cieniem, zaokrąglonymi rogami i kolorem tła
     Surface(
         modifier = Modifier.padding(5.dp),
         shadowElevation = 1.dp,
         shape = RoundedCornerShape(10),
         color = Defoult50
     ) {
+        // Wyświetl tekst hashtagu z wypełnieniem i kolorem
         Text(
             modifier = Modifier.padding(7.dp),
             color = Green700,
@@ -95,23 +99,28 @@ fun ProductDetail(
     onItemAdd: (ItemDetail) -> Unit = {},
     onGoToShoppingBag: () -> Unit = {}
 ) {
+    // Zapamiętaj stan, czy składniki i tabela kalorii są rozwinięte
     var isIngredientsExpandet by rememberSaveable {
         mutableStateOf(false)
     }
     var isCaloriesTableExpandet by rememberSaveable {
         mutableStateOf(false)
     }
+    // Komponent Surface z wypełnieniem i zaokrąglonymi rogami
     Surface(
         modifier = Modifier
             .padding(start = 10.dp, end = 10.dp),
         shape = RoundedCornerShape(10)
     ) {
+        // Kolumna do rozmieszczenia elementów w pionie
         Column {
+            // LazyRow do wyświetlania hashtagów w poziomie
             LazyRow {
                 items(items = item.hashTags) { tag ->
                     ProductHashTag(name = tag)
                 }
             }
+            // Wiersz do wyświetlania nazwy produktu i ceny
             Row(
                 modifier = Modifier.padding(top = 20.dp)
             ) {
@@ -129,7 +138,9 @@ fun ProductDetail(
                     textAlign = TextAlign.Center
                 )
             }
+            // Kolumna dla sekcji składników
             Column {
+                // Wiersz z modyfikatorem klikalnym, aby przełączać rozwinięcie składników
                 Row(
                     modifier = Modifier
                         .clickable { isIngredientsExpandet = !isIngredientsExpandet }
@@ -143,6 +154,7 @@ fun ProductDetail(
                     Icon(imageVector = ingredientsArrow, contentDescription = null)
                 }
 
+                // Wyświetl tekst składników, jeśli rozwinięty
                 if (isIngredientsExpandet) {
                     Text(
                         modifier = Modifier
@@ -152,7 +164,9 @@ fun ProductDetail(
                     )
                 }
             }
+            // Kolumna dla sekcji tabeli kalorii
             Column {
+                // Wiersz z modyfikatorem klikalnym, aby przełączać rozwinięcie tabeli kalorii
                 Row(
                     modifier = Modifier
                         .clickable { isCaloriesTableExpandet = !isCaloriesTableExpandet }
@@ -165,7 +179,7 @@ fun ProductDetail(
                     Text(text = "Wartości odżywcze")
                     Icon(imageVector = caloriesArrow, contentDescription = null)
                 }
-
+                // Wyświetl tekst kalorii, jeśli rozwinięty
                 if (isCaloriesTableExpandet) {
                     Text(
                         modifier = Modifier.padding(top = 15.dp),
@@ -174,6 +188,7 @@ fun ProductDetail(
                     )
                 }
             }
+            // Wyświetl przycisk do dodania do koszyka
             ShoppingBagButton(
                 alreadyAdded = alreadyAdded,
                 onClick = { onItemAdd(item) },
@@ -189,11 +204,12 @@ fun ShoppingBagButton(
     onClick: () -> Unit,
     onGoToShoppingBag: () -> Unit = {}
 ) {
+    // Domyślny modyfikator dla przycisku
     val defaultModifier = Modifier
         .padding(vertical = 16.dp)
         .height(48.dp)
         .fillMaxWidth()
-
+    // Pokaż różne przyciski w zależności od tego, czy produkt jest już dodany do koszyka
     when (alreadyAdded) {
         true -> {
             OutlinedButton(
@@ -201,10 +217,12 @@ fun ShoppingBagButton(
                 onClick = onGoToShoppingBag,
                 colors = ButtonDefaults.buttonColors(Green800)
             ) {
+                // Box do wyrównania zawartości wewnątrz przycisku
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.CenterStart
                 ) {
+                    // Wiersz do rozmieszczenia ikony i tekstu w poziomie
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Start
@@ -239,11 +257,13 @@ fun ShoppingBagButton(
 
 @Composable
 fun ProductImage(image: Int) {
+    // Komponent Surface do wyświetlania obrazu produktu
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .size(350.dp, 350.dp)
     ) {
+        // Komponent Image do wyświetlania obrazu
         Image(
             bitmap = ImageBitmap.imageResource(id = image),
             contentDescription = null,
@@ -254,6 +274,7 @@ fun ProductImage(image: Int) {
 
 @Composable
 fun ProductHeader() {
+    // Wiersz do rozmieszczenia elementów w poziomie
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -261,10 +282,12 @@ fun ProductHeader() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        // Ikona powrotu
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_left),
             contentDescription = null
         )
+        // Ikona ulubionych
         Icon(
             modifier = Modifier
                 .size(35.dp, 35.dp)
