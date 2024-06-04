@@ -2,8 +2,10 @@ package com.example.matizza.ui.screens
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +23,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,38 +45,78 @@ fun ProfileScreen(
 ) {
     Column {
         ProfileHeader()
-        ProfileMenu()
+        ProfileInfo(name = data.name, surname = data.surname, email = data.email)
+        ProfileMenu(onHistoryClick, onProfileDataClick, onAddressClick, onPaymentClick)
         ProfileHelp()
     }
 }
 
 @Composable
-fun ProfileHelp() {
-
+fun ProfileInfo(name: String = "", surname: String = "", email: String) {
+    Column {
+        Text(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = "$name $surname",
+            fontStyle = FontStyle.Normal,
+            fontSize = 40.sp,
+            textAlign = TextAlign.Start
+        )
+        Text(modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
+            text = email,
+            fontSize = 18.sp,
+            fontStyle = FontStyle.Italic)
+    }
 }
 
 @Composable
-fun ProfileMenu() {
+fun ProfileHelp() {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(bottom = 16.dp),
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        ProfileButton(
+            resourceId = R.drawable.ic_help,
+            buttonText = "Pomoc",
+            onClick = {}
+        )
+        ProfileButton(
+            resourceId = null,
+            buttonText = "Wyloguj się",
+            onClick = {}
+        )
+
+    }
+}
+
+@Composable
+fun ProfileMenu(
+    onHistoryClick: () -> Unit = {},
+    onProfileDataClick: () -> Unit = {},
+    onAddressClick: () -> Unit = {},
+    onPaymentClick: () -> Unit = {}
+) {
     Column {
         ProfileButton(
             resourceId = R.drawable.ic_history,
             buttonText = "Historia",
-            onClick = {}
+            onClick = onHistoryClick
         )
         ProfileButton(
             resourceId = R.drawable.ic_profile,
             buttonText = "Profil",
-            onClick = {}
+            onClick = onProfileDataClick
         )
         ProfileButton(
             resourceId = R.drawable.ic_address,
             buttonText = "Adres",
-            onClick = {}
+            onClick = onAddressClick
         )
         ProfileButton(
             resourceId = R.drawable.ic_payments,
             buttonText = "Płatność",
-            onClick = {}
+            onClick = onPaymentClick
         )
     }
 }
@@ -93,12 +136,14 @@ fun ProfileHeader() {
 
 @Composable
 fun ProfileButton(
-    @DrawableRes resourceId: Int,
+    @DrawableRes resourceId: Int?,
     buttonText: String,
     onClick: () -> Unit
 ) {
     val arroeRight = ImageVector.vectorResource(id = R.drawable.ic_arrow_right)
-    val displayIcon = ImageBitmap.imageResource(id = resourceId)
+    val displayIcon = if (resourceId != null) {
+        ImageBitmap.imageResource(id = resourceId)
+    } else null
 
     OutlinedButton(
         modifier = Modifier.padding(horizontal = 16.dp),
@@ -110,20 +155,23 @@ fun ProfileButton(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                modifier = Modifier
-                    .size(25.dp, 25.dp)
-                    .padding(end = 10.dp),
-                bitmap = displayIcon,
-                contentDescription = null
-            )
+            if (displayIcon != null) {
+                Image(
+                    modifier = Modifier
+                        .size(25.dp, 25.dp)
+                        .padding(end = 10.dp),
+                    bitmap = displayIcon,
+                    contentDescription = null
+                )
+            }
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
                 text = buttonText,
                 textAlign = TextAlign.Start,
-                color = Color.Black)
+                color = Color.Black
+            )
             Image(
                 imageVector = arroeRight,
                 contentDescription = null,
@@ -132,7 +180,6 @@ fun ProfileButton(
         }
     }
 }
-
 
 
 @Preview(showSystemUi = true, showBackground = true)
