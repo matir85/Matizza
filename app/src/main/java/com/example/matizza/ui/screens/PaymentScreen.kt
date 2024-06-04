@@ -1,6 +1,6 @@
 package com.example.matizza.ui.screens
 
-import android.location.Address
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +21,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,16 +38,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
+import com.example.matizza.data.UiState
+import com.example.matizza.data.samples.samplePayment
 import com.example.matizza.ui.theme.Green800
 
 @Composable
-fun PaymentScreen(modifier: Modifier = Modifier) {
+fun PaymentScreen(
+    data: UiState.Payment,
+    onClose: () -> Unit = {},
+    onPayClick: () -> Unit = {}
+) {
+    val roundedDouble by remember {
+        val totalAmount = data.orderList.sumOf { it.item.price.toDouble() * it.count }
+        val rounded = String.format("%.2f", totalAmount)
+        mutableStateOf(rounded)
+    }
     Column {
-        PaymentHeadder()
+        PaymentHeadder(onClose = onClose)
         PaymentCardDetail()
-        PaymentAddress()
-        PaymentTotalCost()
-        PaymentButton()
+        PaymentAddress(address = data.userData.address)
+        PaymentTotalCost(totalAmount = roundedDouble)
+        PaymentButton(onPayClick = onPayClick)
     }
 }
 
@@ -137,7 +150,7 @@ fun PaymentCardDetail() {
         modifier = Modifier
             .wrapContentWidth()
             .padding(horizontal = 16.dp),
-        shadowElevation = 1.dp,
+        shadowElevation = 3.dp,
         shape = RoundedCornerShape(10)
     ) {
         Row(
@@ -222,4 +235,10 @@ fun PaymentCadrDetailPreview() {
 @Composable
 fun PaymentHeaderPreview() {
     PaymentHeadder()
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PaymentScreenPreview() {
+    PaymentScreen(data = samplePayment)
 }
