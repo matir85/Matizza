@@ -51,8 +51,26 @@ fun PaymentButton() {
 }
 
 @Composable
-fun PaymentTotalCost() {
-
+fun PaymentTotalCost(totalAmount: String = "") {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Koszt",
+            color = Color.LightGray,
+            fontWeight = FontWeight.Light,
+            fontSize = 25.sp
+        )
+        Text(
+            text = totalAmount,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp
+        )
+    }
 }
 
 @Composable
@@ -157,6 +175,12 @@ fun PaymentHeadder(onClose: () -> Unit = {}) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PaymentTotalCostPreview() {
+    PaymentTotalCost(totalAmount = "32.60")
 }
 
 @Preview(showBackground = true)
