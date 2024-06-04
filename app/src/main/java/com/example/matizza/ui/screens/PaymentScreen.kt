@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
@@ -61,7 +62,7 @@ fun PaymentHeadder(onClose: () -> Unit = {}) {
             modifier = Modifier
                 .weight(1f)
                 .padding(vertical = 20.dp),
-            text = "Płatnośc",
+            text = "Płatność",
             textAlign = TextAlign.Center,
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold
@@ -79,4 +80,10 @@ fun PaymentHeadder(onClose: () -> Unit = {}) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PaymentHeaderPreview(){
+    PaymentHeadder()
 }
