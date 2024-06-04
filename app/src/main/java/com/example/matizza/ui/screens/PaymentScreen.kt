@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
+import com.example.matizza.ui.theme.Green800
 
 @Composable
 fun PaymentScreen(modifier: Modifier = Modifier) {
@@ -46,8 +50,21 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PaymentButton() {
-
+fun PaymentButton(onPayClick: () -> Unit = {}) {
+    OutlinedButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        colors = ButtonDefaults.buttonColors(Green800),
+        onClick = { onPayClick() }) {
+        Text(
+            text = "Zapłać",
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            fontSize = 25.sp
+        )
+    }
 }
 
 @Composable
@@ -175,6 +192,12 @@ fun PaymentHeadder(onClose: () -> Unit = {}) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PaymentButtonPreview() {
+    PaymentButton()
 }
 
 @Preview(showBackground = true)
