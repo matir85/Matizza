@@ -74,7 +74,7 @@ fun PaymentHeadder(onClose: () -> Unit = {}) {
             Image(
                 modifier = Modifier
                     .padding(end = 16.dp)
-                    .size(10.dp, 10.dp),
+                    .size(15.dp, 15.dp),
                 bitmap = ImageBitmap.imageResource(id = R.drawable.ic_close),
                 contentDescription = null
             )
@@ -82,6 +82,11 @@ fun PaymentHeadder(onClose: () -> Unit = {}) {
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun PaymentCadrDetailPreview(){
+    PaymentCardDetail()
+}
 @Preview(showBackground = true)
 @Composable
 fun PaymentHeaderPreview(){
