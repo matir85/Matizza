@@ -1,5 +1,7 @@
 package com.example.matizza.ui.screens
 
+import android.location.Address
+import android.widget.ImageButton
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -126,17 +128,65 @@ fun InfoCard(
                 }
                 Surface(shape = CircleShape, color = Defoult50) {
                     IconButton(
-                        modifier = Modifier.border(1.dp, color = Color.LightGray, shape = CircleShape),
-                        onClick = {  }) {
+                        modifier = Modifier.border(
+                            1.dp,
+                            color = Color.LightGray,
+                            shape = CircleShape
+                        ),
+                        onClick = { }) {
                         val editIcon = ImageBitmap.imageResource(id = R.drawable.ic_phone)
                         Icon(
                             modifier = Modifier.size(25.dp, 25.dp),
                             bitmap = editIcon, contentDescription = null,
-                            tint = Green800)
+                            tint = Green800
+                        )
                     }
                 }
             }
+
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                shape = RoundedCornerShape(12),
+                shadowElevation = 1.dp
+            ) {
+                val placeIcon = ImageBitmap.imageResource(id = R.drawable.ic_address)
+                val clockImage = ImageBitmap.imageResource(id = R.drawable.ic_clock)
+
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    InfoCardRow()
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun InfoCardRow(
+    modifier: Modifier = Modifier, bitmap: ImageBitmap, address: String
+) {
+    Row(modifier = modifier) {
+        IconButton(
+            modifier = Modifier.border(1.dp, color = Color.LightGray, shape = CircleShape),
+            onClick = { }) {
+            Icon(
+                modifier = Modifier.size(25.dp, 25.dp),
+                tint = Green800,
+                bitmap = bitmap,
+                contentDescription = null
+            )
+        }
+        Text(
+            modifier = Modifier.padding(start = 16.dp),
+            text = address,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            textAlign = TextAlign.Center
+        )
     }
 }
 
@@ -162,6 +212,6 @@ fun OrderMap(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun MapScreenPreview(){
+fun MapScreenPreview() {
     MapScreen(data = sampleMapData)
 }
