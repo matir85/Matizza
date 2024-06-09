@@ -1,5 +1,7 @@
 package com.example.matizza.ui.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,7 +10,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,6 +35,8 @@ import androidx.compose.ui.unit.sp
 import com.example.matizza.R
 
 import com.example.matizza.data.UiState
+import com.example.matizza.ui.theme.Defoult50
+import com.example.matizza.ui.theme.Green800
 import com.example.matizza.ui.theme.Neutral900
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -89,7 +97,31 @@ fun InfoCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-
+                Image(
+                    modifier = Modifier
+                        .size(60.dp, 60.dp)
+                        .padding(end = 16.dp),
+                    bitmap = profileImage,
+                    contentDescription = null
+                )
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(text = "$name $surname", fontWeight = FontWeight.Bold, color = Color.White)
+                    Text(text = "555-487-898", fontWeight = FontWeight.Light, color = Color.White)
+                }
+                Surface(shape = CircleShape, color = Defoult50) {
+                    IconButton(
+                        modifier = Modifier.border(1.dp, color = Color.LightGray, shape = CircleShape),
+                        onClick = {  }) {
+                        val editIcon = ImageBitmap.imageResource(id = R.drawable.ic_phone)
+                        Icon(
+                            modifier = Modifier.size(25.dp, 25.dp),
+                            bitmap = editIcon, contentDescription = null,
+                            tint = Green800)
+                    }
+                }
             }
         }
     }
