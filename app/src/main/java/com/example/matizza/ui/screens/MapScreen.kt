@@ -30,11 +30,13 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
 
 import com.example.matizza.data.UiState
+import com.example.matizza.data.samples.sampleMapData
 import com.example.matizza.ui.theme.Defoult50
 import com.example.matizza.ui.theme.Green800
 import com.example.matizza.ui.theme.Neutral900
@@ -144,4 +146,11 @@ fun OrderMap(modifier: Modifier = Modifier) {
             Marker(state = MarkerState(startPlace), title = "Poniec", snippet = "Marker in Poniec")
         }
     }
+}
+
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun MapScreenPreview(){
+    MapScreen(data = sampleMapData)
 }
