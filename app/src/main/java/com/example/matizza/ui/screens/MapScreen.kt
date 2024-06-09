@@ -1,5 +1,8 @@
 package com.example.matizza.ui.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
@@ -34,7 +38,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matizza.R
-
 import com.example.matizza.data.UiState
 import com.example.matizza.data.samples.sampleMapData
 import com.example.matizza.ui.theme.Defoult50
@@ -57,6 +60,7 @@ fun MapScreen(
     Surface(modifier = Modifier.fillMaxSize()) {
         Column {
             Text(
+                modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
                 text = "Twoje zamówienie",
                 textAlign = TextAlign.Start,
                 color = Color.Black,
@@ -65,12 +69,19 @@ fun MapScreen(
             )
             OrderMap()
         }
-        Box(modifier = Modifier) {
-            InfoCard()
+        AnimatedVisibility(visible = isDetailVisable, enter = scaleIn(), exit = scaleOut()) {
+            Box(modifier = Modifier, contentAlignment = Alignment.BottomCenter) {
+                InfoCard()
+            }
         }
-        Box {
-            OutlinedButton(onClick = { /*TODO*/ }) {
-
+        Box(contentAlignment = Alignment.BottomCenter) {
+            OutlinedButton(
+                colors = ButtonDefaults.buttonColors(Green800),
+                shape = RoundedCornerShape(20),
+                onClick = { isDetailVisable = !isDetailVisable }
+            ) {
+                if (isDetailVisable) Text(text = "Ukryj szczegóły", color = Color.White)
+                else Text(text = "Zobacz szczegóły", color = Color.White)
             }
         }
     }
